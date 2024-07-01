@@ -12,7 +12,7 @@ export const getProductById = async (id: number): Promise<Product | null> => {
 }
 
 export const createProduct = async (req: Request) => {
-  const { name, description, price, quantity } = req.body
+  const { name, description, price, quantity, inStock } = req.body
 
   const product = await prisma.product.create({
     data: {
@@ -20,6 +20,7 @@ export const createProduct = async (req: Request) => {
       description,
       price: parseFloat(price),
       quantity: parseInt(quantity, 10),
+      inStock,
     },
   })
 
@@ -31,6 +32,7 @@ interface UpdateProductData {
   price?: number
   description?: string
   quantity?: number
+  inStock?: boolean
 }
 
 export const updateProduct = async (
