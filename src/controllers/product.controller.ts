@@ -8,14 +8,14 @@ export const getAllProducts = async (req: Request, res: Response) => {
 }
 
 export const getProductById = async (req: Request, res: Response) => {
-  const { id } = req.params
-  const product = await productService.getProductById(Number(id))
-  if (product) {
-    res.json(product)
-  } else {
-    res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ message: `No product with id : ${id}` })
+  try {
+    const { id } = req.params
+    const product = await productService.getProductById(Number(id))
+    if (product) {
+      res.status(StatusCodes.OK).json(product)
+    }
+  } catch (error) {
+    return
   }
 }
 
@@ -24,7 +24,7 @@ export const createProduct = async (req: Request, res: Response) => {
     const newProduct = await productService.createProduct(req)
     res.status(StatusCodes.CREATED).json(newProduct)
   } catch (error) {
-    return res.status(StatusCodes.BAD_REQUEST).json('All fields are required')
+    return
   }
 }
 
@@ -41,9 +41,7 @@ export const updateProduct = async (
       res.status(StatusCodes.OK).json(updatedProduct)
     }
   } catch (error) {
-    res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ message: `No product with id:${id}` })
+    return
   }
 }
 
@@ -62,8 +60,6 @@ export const deleteProduct = async (
       })
     }
   } catch (error) {
-    res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ message: `No product with id:${id}` })
+    return
   }
 }
