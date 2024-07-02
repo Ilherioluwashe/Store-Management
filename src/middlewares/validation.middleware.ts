@@ -53,3 +53,42 @@ export const validateProductIdParam = withValidationErrors([
     }
   }),
 ])
+
+export const validateCustomerIdParam = withValidationErrors([
+  param('id').custom(async (value, { req }) => {
+    const id = parseInt(value, 10)
+
+    if (isNaN(id)) {
+      throw new BadRequestError('Invalid ID format')
+    }
+
+    const customer = await prisma.customer.findUnique({ where: { id } })
+
+    if (!customer) {
+      throw new NotFoundError(`No customer with id ${id}`)
+    }
+  }),
+])
+
+export const validateCustomerInput = withValidationErrors([
+  body('name').notEmpty().withMessage('Customer name is required'),
+  body('email')
+    .notEmpty()
+    .withMessage('Customer email is required')
+    .isEmail()
+    .withMessage('Invalid email format')
+    .custom(async (email: string) => {
+      const user = await prisma.customer.findUnique({
+        where: { email },
+      })
+      if (user) {
+        throw new BadRequestError('Email already exists')
+      }
+    }),
+  body('phoneNumber')
+    .notEmpty()
+    .withMessage('Customer phone number is required')
+    .isLength({ min: 10 })
+    .withMessage('Phone number must be at least 10 characters long'),
+  body('address').notEmpty().withMessage('Customer address is required'),
+])

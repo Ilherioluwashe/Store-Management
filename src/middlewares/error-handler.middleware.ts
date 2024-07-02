@@ -1,17 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
-interface CustomError extends Error {
-  statusCode?: number
-}
-
 const errorHandlerMiddleware = (
-  err: CustomError,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  console.error(err)
+  console.log(err)
 
   const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
   const msg = err.message || 'Something went wrong, try again later'
