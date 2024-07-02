@@ -24,9 +24,17 @@ export const createProduct = async (req: Request, res: Response) => {
     const newProduct = await productService.createProduct(req)
     res.status(StatusCodes.CREATED).json(newProduct)
   } catch (error) {
-    return res.status(StatusCodes.BAD_REQUEST).json('All fields are required')
+    return
   }
 }
+// export const createProduct = async (req: Request, res: Response) => {
+//   try {
+//     const newProduct = await productService.createProduct(req)
+//     res.status(StatusCodes.CREATED).json(newProduct)
+//   } catch (error) {
+//     return res.status(StatusCodes.BAD_REQUEST).json('All fields are required')
+//   }
+// }
 
 export const updateProduct = async (
   req: Request,
