@@ -92,3 +92,41 @@ export const validateCustomerInput = withValidationErrors([
     .withMessage('Phone number must be at least 10 characters long'),
   body('address').notEmpty().withMessage('Customer address is required'),
 ])
+export const validateStaffInput = withValidationErrors([
+  body('name').notEmpty().withMessage('Staff name is required'),
+  body('email')
+    .notEmpty()
+    .withMessage('Staff email is required')
+    .isEmail()
+    .withMessage('Invalid email format')
+    .custom(async (email: string) => {
+      const user = await prisma.staff.findUnique({
+        where: { email },
+      })
+
+      if (user) {
+        throw new BadRequestError('Email already exists')
+      }
+    }),
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long'),
+])
+
+export const validateStaffIdParam = withValidationErrors([
+  param('id').custom(async (value, { req }) => {
+    const id = parseInt(value, 10)
+
+    if (isNaN(id)) {
+      throw new BadRequestError('Invalid ID format')
+    }
+
+    const staff = await prisma.staff.findUnique({ where: { id } })
+
+    if (!staff) {
+      throw new NotFoundError(`No staff with id ${id}`)
+    }
+  }),
+])

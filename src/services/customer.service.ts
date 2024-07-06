@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import prisma from '../models/index.models'
 import { Customer } from '@prisma/client'
 

@@ -7,6 +7,7 @@ const app = express()
 
 import productsRoutes from './routes/product.routes'
 import customerRoutes from './routes/customer.routes'
+import staffRoutes from './routes/staff.routes'
 import errorHandlerMiddleware from './middlewares/error-handler.middleware'
 
 app.use(express.json())
@@ -17,6 +18,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 app.use('/api/v1/products', productsRoutes)
 app.use('/api/v1/customers', customerRoutes)
+app.use('/api/v1/staffs', staffRoutes)
 
 app.use(errorHandlerMiddleware)
 

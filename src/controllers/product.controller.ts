@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 
 export const getAllProducts = async (req: Request, res: Response) => {
   const products = await productService.getAllProducts()
-  res.json(products)
+  res.status(StatusCodes.OK).json(products)
 }
 
 export const getProductById = async (req: Request, res: Response) => {

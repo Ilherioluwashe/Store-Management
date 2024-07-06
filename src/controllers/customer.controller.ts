@@ -13,7 +13,7 @@ export const createCustomer = async (req: Request, res: Response) => {
 
 export const getAllCustomers = async (req: Request, res: Response) => {
   const customers = await customerService.getAllCustomers()
-  res.json(customers)
+  res.status(StatusCodes.OK).json(customers)
 }
 
 export const getCustomerById = async (req: Request, res: Response) => {
