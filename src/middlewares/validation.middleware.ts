@@ -5,7 +5,11 @@ import {
   ValidationChain,
   param,
 } from 'express-validator'
-import { NotFoundError, BadRequestError } from '../errors/index.errors'
+import {
+  NotFoundError,
+  BadRequestError,
+  UnauthorizedError,
+} from '../errors/index.errors'
 import prisma from '../models/index.models'
 
 const withValidationErrors = (
@@ -122,6 +126,11 @@ export const validateStaffIdParam = withValidationErrors([
     if (isNaN(id)) {
       throw new BadRequestError('Invalid ID format')
     }
+    const isAdmin = req.user.role === 'Admin'
+
+    const isOwner = req.user.id === id
+    if (!isAdmin && !isOwner)
+      throw new UnauthorizedError('not authorized to access this route')
 
     const staff = await prisma.staff.findUnique({ where: { id } })
 

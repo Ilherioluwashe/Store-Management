@@ -12,6 +12,8 @@ export const createStaff = async (req: Request, res: Response) => {
 }
 
 export const getAllStaffs = async (req: Request, res: Response) => {
+  console.log()
+
   const staffs = await staffService.getAllStaffs()
   res.status(StatusCodes.OK).json(staffs)
 }
