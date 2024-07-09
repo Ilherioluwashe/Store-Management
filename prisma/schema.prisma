@@ -28,6 +28,7 @@ model Product {
   inStock Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  sales       Sale[]
 @@map("products")
 }
 
@@ -39,6 +40,8 @@ model Customer {
   address String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  sales       Sale[]
+
   @@map("customers")
 }
 
@@ -50,5 +53,26 @@ model Staff {
   password String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  sales      Sale[]
+
 @@map("staffs")
+}
+
+
+model Sale {
+  id         Int       @id @default(autoincrement())
+  productId  Int
+  customerId Int
+  staffId    Int
+  quantity   Int
+  total      Float
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
+
+  
+  product    Product   @relation(fields: [productId], references: [id])
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  staff      Staff     @relation(fields: [staffId], references: [id])
+@@map("sales")
+
 }
