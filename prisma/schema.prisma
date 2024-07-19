@@ -13,66 +13,77 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role{
+enum Role {
   Admin
   User
 }
 
-
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String
-  price       Float
+  price       Decimal     @db.Decimal(18,2)
   quantity    Int
-  inStock Boolean @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sales       Sale[]
-@@map("products")
+  inStock     Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@map("products")
 }
 
 model Customer {
   id          Int      @id @default(autoincrement())
   name        String
   email       String   @unique
-  phoneNumber String @db.VarChar(15)
-  address String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sales       Sale[]
+  phoneNumber String   @db.VarChar(15)
+  address     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[]
 
   @@map("customers")
 }
 
 model Staff {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  role     Role @default(User)
-  password String
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  role      Role     @default(User)
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  sales      Sale[]
+  orders    Order[]
 
-@@map("staffs")
+  @@map("staffs")
+}
+
+model OrderItem {
+  id              Int               @id @default(autoincrement())
+  name            String
+  price           Decimal           @db.Decimal(18,2)
+  quantity          Int
+  product         Product           @relation(fields: [productId], references: [id])
+  productId       Int
+  order          Order              @relation(fields: [orderId], references: [id])
+  orderId        Int  
+
+  @@map("orderItems")
+}
+
+model Order {
+  id              Int               @id @default(autoincrement())
+  total           Decimal           @db.Decimal(18,2)
+  staff           Staff             @relation(fields: [staffId], references: [id])
+  staffId         Int
+  customer        Customer          @relation(fields: [customerId], references: [id])
+  customerId      Int
+  invoiceUrl      String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  orderItems      OrderItem[]
+
+  @@map("orders")
 }
 
 
-model Sale {
-  id         Int       @id @default(autoincrement())
-  productId  Int
-  customerId Int
-  staffId    Int
-  quantity   Int
-  total      Float
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime @updatedAt
-
-  
-  product    Product   @relation(fields: [productId], references: [id])
-  customer   Customer  @relation(fields: [customerId], references: [id])
-  staff      Staff     @relation(fields: [staffId], references: [id])
-@@map("sales")
-
-}
