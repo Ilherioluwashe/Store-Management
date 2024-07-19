@@ -2,6 +2,7 @@ import { Request } from 'express'
 import prisma from '../models/index.models'
 import { Staff } from '@prisma/client'
 import { hashPassword } from '../utils/password.utils'
+import { UpdateStaffData } from '../dtos/staff.interface'
 
 export const createStaff = async (req: Request) => {
   const { name, email, password, role } = req.body
@@ -41,12 +42,6 @@ export const getAllStaffs = async () => {
 export const getStaffById = async (id: number): Promise<Staff | null> => {
   const staff = await prisma.staff.findUnique({ where: { id } })
   return staff
-}
-
-interface UpdateStaffData {
-  name?: string
-  email?: string
-  password?: string
 }
 
 export const updateStaff = async (
