@@ -4,7 +4,7 @@ import NotFoundError from './not-found.error'
 import UnauthenticatedError from './unauthenticated.error'
 import UnauthorizedError from './unauthorized.errors'
 
-export {
+export default {
   CustomAPIError,
   UnauthenticatedError,
   NotFoundError,

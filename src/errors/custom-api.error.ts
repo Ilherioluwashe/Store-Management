@@ -1,9 +1,9 @@
-class CustomAPIError extends Error {
-  statusCode: any
-  static BadRequestError: any
-  constructor(message: string) {
+export class CustomAPIError extends Error {
+  statusCode: number
+
+  constructor(message: string, statusCode: number) {
     super(message)
-    this.name = 'CustomAPIError'
+    this.statusCode = statusCode
   }
 }
 
