@@ -1,9 +1,5 @@
 import jwt from 'jsonwebtoken'
-
-interface JWTPayload {
-  userId: number
-  role: string
-}
+import { JWTPayload } from '../dtos/authentication.interface'
 
 export const createJWT = (payload: JWTPayload): string => {
   const expiresIn = process.env.JWT_EXPIRES_IN
