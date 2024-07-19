@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import prisma from '../models/index.models'
 import { Customer } from '@prisma/client'
+import { UpdateCustomerData } from '../dtos/customer.interface'
 
 export const createCustomer = async (req: Request) => {
   const { name, email, phoneNumber, address } = req.body
@@ -20,13 +21,6 @@ export const getAllCustomers = async () => {
 export const getCustomerById = async (id: number): Promise<Customer | null> => {
   const customer = await prisma.customer.findUnique({ where: { id } })
   return customer
-}
-
-interface UpdateCustomerData {
-  name?: string
-  email?: string
-  phoneNumber?: string
-  address?: string
 }
 
 export const updateCustomer = async (
