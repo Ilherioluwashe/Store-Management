@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import prisma from '../models/index.models'
 import { Product } from '@prisma/client'
+import { UpdateProductData } from '../dtos/product.interface'
 
 export const getAllProducts = async () => {
   return await prisma.product.findMany()
@@ -25,14 +26,6 @@ export const createProduct = async (req: Request) => {
   })
 
   return product
-}
-
-interface UpdateProductData {
-  name?: string
-  price?: number
-  description?: string
-  quantity?: number
-  inStock?: boolean
 }
 
 export const updateProduct = async (

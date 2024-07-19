@@ -12,19 +12,19 @@ router.get('/', productController.getAllProducts)
 router.get('/:id', validateProductIdParam, productController.getProductById)
 router.post(
   '/',
-  authorizedPermissions('Admin'),
+  authorizedPermissions({ roles: ['Admin'] }),
   validateProductInput,
   productController.createProduct
 )
 router.patch(
   '/:id',
-  authorizedPermissions('Admin'),
+  authorizedPermissions({ roles: ['Admin'] }),
   validateProductIdParam,
   productController.updateProduct
 )
 router.delete(
   '/:id',
-  authorizedPermissions('Admin'),
+  authorizedPermissions({ roles: ['Admin'] }),
   validateProductIdParam,
   productController.deleteProduct
 )
