@@ -1,13 +1,8 @@
-import { Request, Response, NextFunction } from 'express'
-import { UnauthenticatedError, UnauthorizedError } from '../errors/index.errors'
+import { Response, NextFunction } from 'express'
+import CustomError from '../errors/index.errors'
 import { verifyJWT } from '../utils/token.utils'
-
-interface AuthenticatedRequest extends Request {
-  user?: {
-    id: number
-    role: string
-  }
-}
+import { AuthenticatedRequest } from '../dtos/authentication.interface'
+import prisma from '../models/index.models'
 
 export const authenticateUser = (
   req: AuthenticatedRequest,
@@ -16,7 +11,7 @@ export const authenticateUser = (
 ): void => {
   const { token } = req.cookies
   if (!token) {
-    next(new UnauthenticatedError('Authentication invalid'))
+    next(new CustomError.UnauthenticatedError('Authentication invalid'))
     return
   }
 
@@ -28,24 +23,47 @@ export const authenticateUser = (
     }
     next()
   } catch (error) {
-    next(new UnauthenticatedError('Authentication invalid'))
+    next(new CustomError.UnauthenticatedError('Authentication invalid'))
   }
 }
 
-export const authorizedPermissions = (...roles: string[]) => {
-  return (
+export const authorizedPermissions = (options: {
+  roles?: string[]
+  allowSameUser?: boolean
+}) => {
+  return async (
     req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): void => {
-    const userIdFromParam = parseInt(req.params.userId, 10)
-    if (
-      req.user &&
-      (roles.includes(req.user.role) || req.user.id === userIdFromParam)
-    ) {
-      next()
-    } else {
-      next(new UnauthorizedError('Unauthorized to access this route'))
+  ): Promise<void> => {
+    if (!req.user) {
+      return next(
+        new CustomError.UnauthenticatedError('Authentication required')
+      )
     }
+
+    const { roles, allowSameUser } = options
+    const userIdFromParam = parseInt(req.params.id, 10)
+
+    if (req.path.includes('/')) {
+      const staffCount = await prisma.staff.count()
+      if (staffCount === 0) {
+        return next()
+      }
+    }
+
+    if (
+      allowSameUser &&
+      !isNaN(userIdFromParam) &&
+      req.user.id === userIdFromParam
+    ) {
+      return next()
+    }
+
+    if (roles && roles.includes(req.user.role)) {
+      return next()
+    }
+
+    next(new CustomError.UnauthorizedError('Unauthorized to access this route'))
   }
 }

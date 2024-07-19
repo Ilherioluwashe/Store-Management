@@ -6,13 +6,11 @@ const errorHandlerMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  console.log(err)
-
+) => {
   const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
   const msg = err.message || 'Something went wrong, try again later'
 
-  res.status(statusCode).json({ msg })
+  return res.status(statusCode).json({ msg })
 }
 
 export default errorHandlerMiddleware

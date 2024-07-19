@@ -5,11 +5,7 @@ import {
   ValidationChain,
   param,
 } from 'express-validator'
-import {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
-} from '../errors/index.errors'
+import CustomError from '../errors/index.errors'
 import prisma from '../models/index.models'
 
 const withValidationErrors = (
@@ -23,10 +19,10 @@ const withValidationErrors = (
         const errorMessages = errors.array().map((error) => error.msg)
 
         if (errorMessages[0]) {
-          throw new NotFoundError(errorMessages.join(', '))
+          throw new CustomError.NotFoundError(errorMessages.join(', '))
         }
 
-        throw new BadRequestError(errorMessages.join(', '))
+        throw new CustomError.BadRequestError(errorMessages.join(', '))
       }
       next()
     },
@@ -47,13 +43,13 @@ export const validateProductIdParam = withValidationErrors([
     const id = parseInt(value, 10)
 
     if (isNaN(id)) {
-      throw new BadRequestError('Invalid ID format')
+      throw new CustomError.BadRequestError('Invalid ID format')
     }
 
     const product = await prisma.product.findUnique({ where: { id } })
 
     if (!product) {
-      throw new NotFoundError(`No product with id ${id}`)
+      throw new CustomError.NotFoundError(`No product with id ${id}`)
     }
   }),
 ])
@@ -63,13 +59,13 @@ export const validateCustomerIdParam = withValidationErrors([
     const id = parseInt(value, 10)
 
     if (isNaN(id)) {
-      throw new BadRequestError('Invalid ID format')
+      throw new CustomError.BadRequestError('Invalid ID format')
     }
 
     const customer = await prisma.customer.findUnique({ where: { id } })
 
     if (!customer) {
-      throw new NotFoundError(`No customer with id ${id}`)
+      throw new CustomError.NotFoundError(`No customer with id ${id}`)
     }
   }),
 ])
@@ -86,7 +82,7 @@ export const validateCustomerInput = withValidationErrors([
         where: { email },
       })
       if (user) {
-        throw new BadRequestError('Email already exists')
+        throw new CustomError.BadRequestError('Email already exists')
       }
     }),
   body('phoneNumber')
@@ -109,7 +105,7 @@ export const validateStaffInput = withValidationErrors([
       })
 
       if (user) {
-        throw new BadRequestError('Email already exists')
+        throw new CustomError.BadRequestError('Email already exists')
       }
     }),
   body('password')
@@ -124,18 +120,29 @@ export const validateStaffIdParam = withValidationErrors([
     const id = parseInt(value, 10)
 
     if (isNaN(id)) {
-      throw new BadRequestError('Invalid ID format')
+      throw new CustomError.BadRequestError('Invalid ID format')
     }
     const isAdmin = req.user.role === 'Admin'
 
     const isOwner = req.user.id === id
     if (!isAdmin && !isOwner)
-      throw new UnauthorizedError('not authorized to access this route')
+      throw new CustomError.UnauthorizedError(
+        'not authorized to access this route'
+      )
 
     const staff = await prisma.staff.findUnique({ where: { id } })
 
     if (!staff) {
-      throw new NotFoundError(`No staff with id ${id}`)
+      throw new CustomError.NotFoundError(`No staff with id ${id}`)
+    }
+  }),
+])
+
+export const validateOrderInput = withValidationErrors([
+  body('customerId').notEmpty().withMessage('Customer Id is required'),
+  body('items').custom(async (cartItems: any[]) => {
+    if (!cartItems || cartItems.length < 1) {
+      throw new CustomError.BadRequestError('No cart items provided')
     }
   }),
 ])
