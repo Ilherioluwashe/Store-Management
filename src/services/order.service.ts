@@ -12,11 +12,25 @@ export const createOrder = async (
 ) => {
   let orderItems = []
   let subtotal = 0
+  const productIds = cartItems.flatMap<number>((c) => {
+    return c.productId
+  })
 
+  const cartItemProducts = await prisma.product.findMany({
+    where: {
+      id: {
+        in: productIds,
+      },
+    },
+    select: {
+      name: true,
+      id: true,
+      price: true,
+      quantity: true,
+    },
+  })
   for (const item of cartItems) {
-    const dbProduct = await prisma.product.findUnique({
-      where: { id: item.productId },
-    })
+    const dbProduct = cartItemProducts.find((x) => x.id == item.productId)
     if (!dbProduct) {
       throw new CustomError.NotFoundError(
         `No product with id: ${item.productId}`

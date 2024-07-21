@@ -17,6 +17,9 @@ export const authenticateUser = (
 
   try {
     const payload = verifyJWT(token)
+    if (!payload.userId || payload.userId <= 0) {
+      throw new CustomError.UnauthorizedError('User not authenticated')
+    }
     req.user = {
       id: payload.userId,
       role: payload.role,
