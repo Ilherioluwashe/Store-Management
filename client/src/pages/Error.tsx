@@ -1,5 +1,4 @@
 import { Link, useRouteError } from 'react-router-dom'
-<<<<<<< HEAD
 import img from '../assets/images/not-found.svg'
 import Wrapper from '../assets/wrappers/ErrorPage'
 
@@ -25,17 +24,6 @@ const Error = () => {
         <h3>something went wrong</h3>
       </div>
     </Wrapper>
-=======
-
-const Error = () => {
-  const error = useRouteError()
-  console.log(error)
-  return (
-    <div>
-      <h1>Error Page!!!</h1>
-      <Link to="/dashboard">back home</Link>
-    </div>
->>>>>>> 36e46dc03b86ded65f914dbeaa4454f466b21072
   )
 }
 export default Error

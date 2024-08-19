@@ -34,7 +34,6 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <DashboardLayout />,
-<<<<<<< HEAD
         children: [
           {
             index: true,
@@ -69,8 +68,6 @@ const router = createBrowserRouter([
             element: <AllStaffs />,
           },
         ],
-=======
->>>>>>> 36e46dc03b86ded65f914dbeaa4454f466b21072
       },
     ],
   },
