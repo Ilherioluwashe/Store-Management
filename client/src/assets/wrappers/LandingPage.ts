@@ -24,7 +24,11 @@ const Wrapper = styled.section`
   h1 {
     font-weight: 700;
     span {
+<<<<<<< HEAD
+      color: var(--primary-500);
+=======
       color: var(--white);
+>>>>>>> 36e46dc03b86ded65f914dbeaa4454f466b21072
     }
     margin-bottom: 1.5rem;
   }

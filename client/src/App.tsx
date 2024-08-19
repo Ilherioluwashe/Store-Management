@@ -34,6 +34,43 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <DashboardLayout />,
+<<<<<<< HEAD
+        children: [
+          {
+            index: true,
+            element: <AddCustomer />,
+          },
+          {
+            path: 'all-customers',
+            element: <AllCustomers />,
+          },
+          {
+            path: 'add-product',
+            element: <AddProduct />,
+          },
+          {
+            path: 'all-products',
+            element: <AllProducts />,
+          },
+          {
+            path: 'add-order',
+            element: <AddOrder />,
+          },
+          {
+            path: 'all-orders',
+            element: <AllOrders />,
+          },
+          {
+            path: 'add-staff',
+            element: <AddStaff />,
+          },
+          {
+            path: 'all-staffs',
+            element: <AllStaffs />,
+          },
+        ],
+=======
+>>>>>>> 36e46dc03b86ded65f914dbeaa4454f466b21072
       },
     ],
   },
