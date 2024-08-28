@@ -1,4 +1,4 @@
-import { FormRowProps } from '../dtos/FormRow.interface'
+import { FormRowProps } from '../dtos/formRow.interface'
 
 const FormRow: React.FC<FormRowProps> = ({
   type,

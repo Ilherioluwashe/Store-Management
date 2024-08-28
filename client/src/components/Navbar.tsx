@@ -6,12 +6,12 @@ import LogoutContainer from './LogoutContainer'
 import ThemeToggle from './ThemeToggle'
 
 const Navbar = () => {
-  const dashboardContext = useDashboardContext()
+  // const dashboardContext = useDashboardContext()
 
-  if (!dashboardContext) {
-    return null // or return some fallback UI
-  }
-  const { toggleSidebar } = dashboardContext
+  // if (!dashboardContext) {
+  //   return null // or return some fallback UI
+  // }
+  const { toggleSidebar } = useDashboardContext()
   return (
     <Wrapper>
       <div className="nav-center">
