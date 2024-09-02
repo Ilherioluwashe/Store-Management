@@ -36,28 +36,19 @@ const Wrapper = styled.aside`
     .nav-category-btn {
       background: none;
       border: none;
-      color: #333;
+      color: var(--text-secondary-color);
       cursor: pointer;
       font-size: 1.2rem;
       text-align: left;
       width: 100%;
     }
 
-    .nav-category-links {
-      align-items: center;
-      color: var(--text-secondary-color);
-      padding: 1rem 0;
-      padding-left: 2.5rem;
-      text-transform: capitalize;
-      transition: padding-left 0.3s ease-in-out;
-    }
-
-    .nav-category:hover {
+    .nav-category-btn:hover {
       padding-left: 3rem;
       color: var(--primary-500);
       transition: var(--transition);
     }
-    .nav-links {
+    .nav-category-links {
       padding-top: 2rem;
       display: flex;
       flex-direction: column;

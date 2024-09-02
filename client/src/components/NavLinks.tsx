@@ -13,7 +13,7 @@ const NavLinks = ({ isBigSidebar }: NavLinksProps) => {
   }
 
   return (
-    <div className="nav-links">
+    <div>
       {Object.entries(links).map(([category, categoryLinks]) => (
         <div key={category} className="nav-category">
           <button
@@ -44,31 +44,3 @@ const NavLinks = ({ isBigSidebar }: NavLinksProps) => {
 }
 
 export default NavLinks
-// import { useDashboardContext } from '../pages/DashboardLayout'
-// import { NavLink } from 'react-router-dom'
-// import links from '../utils/links'
-// import { NavLinksProps } from '../dtos/navLinks.interface'
-
-// const NavLinks = ({ isBigSidebar }: NavLinksProps) => {
-//   const { user, toggleSidebar } = useDashboardContext()
-//   return (
-//     <div className="nav-links">
-//       {links.map((link) => {
-//         const { text, path } = link
-//         return (
-//           <NavLink
-//             to={path}
-//             key={text}
-//             onClick={isBigSidebar ? undefined : toggleSidebar}
-//             className="nav-link"
-//             end
-//           >
-//             {text}
-//           </NavLink>
-//         )
-//       })}
-//     </div>
-//   )
-// }
-
-// export default NavLinks

@@ -42,11 +42,6 @@ const Wrapper = styled.aside`
     color: var(--red-dark);
     cursor: pointer;
   }
-  .nav-links {
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column;
-  }
   .nav-link {
     display: flex;
     align-items: center;
@@ -84,10 +79,8 @@ const Wrapper = styled.aside`
     transition: padding-left 0.3s ease-in-out;
   }
 
-  .nav-category:hover {
-    padding-left: 3rem;
+  .nav-category-btn:hover {
     color: var(--primary-500);
-    transition: var(--transition);
   }
   .icon {
     font-size: 1.5rem;
