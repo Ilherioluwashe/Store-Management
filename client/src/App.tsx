@@ -20,6 +20,10 @@ import {
   HomeLayout,
 } from './pages'
 
+import { action as loginAction } from './pages/Login'
+import { action as addCustomerAction } from './pages/AddCustomer'
+import { loader as allCustomersLoader } from './pages/AllCustomers'
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true'
   document.body.classList.toggle('dark-theme', isDarkTheme)
@@ -36,6 +40,7 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+        action: loginAction,
       },
       {
         path: '/dashboard',
@@ -44,10 +49,12 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AddCustomer />,
+            action: addCustomerAction,
           },
           {
             path: 'all-customers',
             element: <AllCustomers />,
+            loader: allCustomersLoader,
           },
           {
             path: 'add-product',
