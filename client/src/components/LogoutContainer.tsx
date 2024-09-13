@@ -5,13 +5,13 @@ import { useDashboardContext } from '../pages/DashboardLayout'
 
 const LogoutContainer = () => {
   const [showLogout, setShowLogout] = useState(false)
-  const dashboardContext = useDashboardContext()
+  // const dashboardContext = useDashboardContext()
 
-  if (!dashboardContext) {
-    return null // or return some fallback UI
-  }
+  // if (!dashboardContext) {
+  //   return null // or return some fallback UI
+  // }
 
-  const { user, logoutUser } = dashboardContext
+  const { user, logoutUser } = useDashboardContext()
 
   return (
     <Wrapper>
