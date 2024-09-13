@@ -16,7 +16,7 @@ const FormRow: React.FC<FormRowProps> = ({
         id={name}
         name={name}
         className="form-input"
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ''}
         required
       />
     </div>
